@@ -232,7 +232,7 @@
             // Function to add a task via the backend
             const addTask = async (task) => {
                 try {
-                  const URL = 'http://localhost:8081/api/tasks/create'
+                  const URL = 'https://taskmaster-5x1b.onrender.com/api/tasks/create'
                     const response = await fetch(URL, {
                         method: "POST",
                         headers: {
@@ -252,7 +252,7 @@
 
             // Function to delete a task via the backend
             window.deleteTask = async (id) => {
-              const URL = `http://localhost:8081/api/tasks/dropone/${id}`
+              const URL = `https://taskmaster-5x1b.onrender.com/api/tasks/dropone/${id}`
                 try {
                     const response = await fetch(URL, {
                       method: "DELETE",
