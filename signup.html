@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-up</title>
+    <!-- <link rel="stylesheet" href="signup.css"> -->
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #7b9e5dd6;
+}
+
+.signup-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+}
+
+img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-name{
+    color: #3e8e41;
+    display: flex;
+    justify-content: center;
+}
+
+/* header {
+    background-color: #3e8e41;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+} */
+
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    width: 95%;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 95%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+.login {
+    color: #3e8e41;
+}
+
+@media (max-width: 768px) {
+    .home-container, .login-container, .signup-container {
+        width: 90%;
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-container, .login-container, .signup-container {
+        width: 100%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+    .input-group {
+        margin-bottom: 10px;
+    }
+    button {
+        height: 30px;
+        padding: 5px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div id="header">
+            <div class="logo">
+                <a href="index.html"><img src="taskMasterLogo.avif" alt="TaskMASTER logo"></a>
+            </div>
+            <div class="app-name">
+                <h2>TASKmaster</h2>
+            </div>
+        </div>
+        <!-- <header>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </header> -->
+        <form id="signupForm">
+            <h2>Create your account</h2>
+            <p>Fill the form below to register</p>
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Create username" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder=" Create password" required>
+            </div>
+            <div id="pass">Password must be 6-32 characters. Must contain at least 1 uppercase letter, lowercase letter, and a special character </div>
+            <button type="submit">Sign-up</button>
+            <h4>Already have an account? <a href="login.html" class="login" style="text-decoration: none;" >Login</a></h4>
+        </form>
+    </div>
+    <script>
+        const signupForm = document.getElementById('signupForm');
+    
+        signupForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+    
+          const username = document.getElementById('username').value;
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+    
+          const signupData = { username, email, password };
+    
+          try {
+            const URL = 'http://localhost:8081/api/signup'
+            const response = await fetch(URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(signupData),
+            });
+    
+            if (response.ok) {
+              const result = await response.json();
+              alert('Signup successful: ' + result.message);
+              window.location.href ="./login.html"
+            } else {
+              const error = await response.json();
+              if(Array.isArray(error)){
+                alert('Error: ' + error.message[0]);
+              }else{
+                alert(error.message)
+              }
+            }
+          } catch (err) {
+            console.error('Network error:', err);
+            alert('Signup failed. Please try again later.');
+          }
+        });
+      </script>
+    <!-- <script src="signup.js"></script> -->
+</body>
+</html>

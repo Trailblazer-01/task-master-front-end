@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- <link rel="stylesheet" href="login.css"> -->
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #7b9e5dd6;
+    }
+
+    .login-container {
+        width: 400px;
+        margin: 70px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    #header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .app-name{
+        color: #3e8e41;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* header {
+    background-color: #3e8e41;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    }
+
+    nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    }
+
+    nav li {
+    display: inline-block;
+    margin-right: 10px;
+    }
+
+    nav a {
+    color: #fff;
+    text-decoration: none;
+    } */
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .input-group input {
+        width: 95%;
+        height: 40px;
+        padding: px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        width: 95%;
+        height: 40px;
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: medium;
+    }
+
+    button:hover {
+        background-color: #3e8e41;
+    }
+
+    .signup {
+    color: #3e8e41;
+    }
+
+    @media (max-width: 768px) {
+    .login-container, .signup-container {
+        width: 90%;
+        margin: 20px auto;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .login-container, .signup-container {
+        width: 100%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+    .input-group {
+        margin-bottom: 10px;
+    }
+    button {
+        height: 30px;
+        padding: 5px;
+    }
+    }
+    </style>
+</head>
+<body>
+ <div class="login-container">
+    <div id="header">
+        <div class="logo">
+            <a href="index.html"><img src="taskMasterLogo.avif" alt="TaskMASTER logo"></a>
+        </div>
+        <div class="app-name">
+            <h2>TASKmaster</h2>
+        </div>
+    </div>
+    <!-- <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="signup.html">Register/Sign-Up</a></li>
+            </ul>
+        </nav>
+    </header> -->
+    <form id="login-form">
+        <h2>Welcome Back!</h2>
+        <p>Login with your TASKmaster credentials</p>
+        <div class="input-group">
+            <label for="username">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+        </div>
+        <div id="error-message" class="error"></div>
+        <button type="submit">Login</button>
+        <h4>Don't have an account? <a href="signup.html" class="signup" style="text-decoration: none;" >Sign-Up</a></h4>
+    </form>
+ </div>
+ <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+
+      try {
+        const URL = 'http://localhost:8081/api/login'
+        const response = await fetch(URL,{
+          method: 'POST',
+          headers:{'content-type':'application/json'},
+          body: JSON.stringify({ email, password })
+
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log(data.token)
+          alert('Login successful!');
+            window.location.href ="./dashboard.html"
+            window.localStorage.setItem('token',data.token)
+        } else {
+          errorMessage.textContent = data.message || 'Login failed. Please try again.';
+        }
+      } catch (error) {
+        errorMessage.textContent = 'An error occurred. Please try again later.';
+      }
+    });
+  </script>
+    <!-- <script src="login.js"></script> -->
+</body>
+</html>
